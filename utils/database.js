@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 let isConnected =false;
 
 export const connectToDB =async ()=>{
-    mongoose.set('stringQuery', true);
+    mongoose.get('strictQuery', true);
     if(isConnected){
         console.log("Mongo db is Aleredy connected");
     }
     try {
         await mongoose.connect(process.env.MONGODB_URI,{
-            dbName:"share_prompts",
+            dbName:"promptopia",
             useNewUrlParser:true,
             useUnifiedTopology:true,
         })

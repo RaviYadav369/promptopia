@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Schema,model,models } from "mongoose";
 
 const userSchema = new Schema({
@@ -12,13 +13,13 @@ const userSchema = new Schema({
     },
     password:{
         type:String,
-        required:true,
+        // required:true,
     },
     image:{
         type:String,
     }
 })
 
-const User = models.User || model("User",userSchema)
+const User = mongoose.models.User || mongoose.model("User",userSchema)
 
 export default User

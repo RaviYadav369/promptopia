@@ -1,13 +1,11 @@
 "use client";
-import { signUp } from "@services/userServices";
-import axios from "axios";
+import { signIn } from "@services/userServices";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const SignUp = () => {
+const SignIn = () => {
   const router = useRouter();
   const [data, setdata] = useState({
-    userName: "",
     email: "",
     password: "",
   });
@@ -15,11 +13,10 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-     const response =await signUp(data);
+     const response =await signIn(data);
       // const response = await axios.post("/api/signup", data);
       console.log(response);
       setdata({
-        userName: "",
         email: "",
         password: "",
       });
@@ -32,24 +29,13 @@ const SignUp = () => {
   return (
     <section className="w-full max-w-full flex-start flex-col">
       <h1 className="head_text text-left">
-        <span className="blue_gradient">Sign Up</span>
+        <span className="blue_gradient">Sign In</span>
       </h1>
       <form
         onSubmit={handleSubmit}
         className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
       >
-        <label>
-          <span className=" font-satoshi font-semibold text-base text-gray-700">
-            Full Name
-          </span>
-          <input
-            value={data.userName}
-            onChange={(e) => setdata({ ...data, userName: e.target.value })}
-            placeholder="Enter Your Full Name"
-            required
-            className="form_input"
-          />
-        </label>
+        
         <label>
           <span className=" font-satoshi font-semibold text-base text-gray-700">
             Email
@@ -81,7 +67,7 @@ const SignUp = () => {
             type="submit"
             className="px-5 py-1.5 w-full text-lg font-semibold bg-primary-orange rounded-full text-white"
           >
-            Sign Up
+            Sign In
           </button>
         </div>
       </form>
@@ -89,4 +75,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;
