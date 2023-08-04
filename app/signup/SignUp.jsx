@@ -1,5 +1,5 @@
 "use client";
-import { signUp } from "@services/userServices";
+import { SIGNUP } from "@services/userServices";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -15,7 +15,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-     const response =await signUp(data);
+     const response =await SIGNUP(data);
       // const response = await axios.post("/api/signup", data);
       console.log(response);
       setdata({

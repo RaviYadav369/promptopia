@@ -5,8 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
+  const router = useRouter()
   const { data: session } = useSession();
   console.log(session);
   const [providers, setproviders] = useState(null);
@@ -19,6 +21,10 @@ const Nav = () => {
     };
     setupProviders();
   }, []);
+
+  const handleSignIn =()=>{
+     router.push('/login')
+  }
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
@@ -37,13 +43,13 @@ const Nav = () => {
       <div className="sm:flex hidden">
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
-            <Link href="/create-propt" className="black_btn">
+            <Link href="/create-prompt" className="black_btn">
               Create Post
             </Link>
             <button type="button" onClick={signOut} className="outline_btn">
               Sign Out
             </button>
-            <Link href="/profile">
+            <Link href="/user">
               <Image
                 src={session.user.image}
                 width={30}
@@ -55,17 +61,13 @@ const Nav = () => {
           </div>
         ) : (
           <>
-            {providers &&
-              Object.values(providers).map((provider) => (
-                <button
-                  type="button"
-                  key={provider.name}
-                  onClick={() => signIn(provider.id)}
-                  className="black_btn"
-                >
-                  Sign In
-                </button>
-              ))}
+            <button
+              type="button"
+              onClick={handleSignIn}
+              className="black_btn"
+            >
+              Sign In
+            </button>
           </>
         )}
       </div>

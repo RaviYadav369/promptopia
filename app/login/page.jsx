@@ -1,7 +1,8 @@
 "use client";
-import { signIn } from "@services/userServices";
+import { SIGNIN } from "@services/userServices";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { signIn, getProviders } from "next-auth/react";
 
 const SignIn = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-     const response =await signIn(data);
+      const response = await SIGNIN(data);
       // const response = await axios.post("/api/signup", data);
       console.log(response);
       setdata({
@@ -26,16 +27,37 @@ const SignIn = () => {
     }
   };
 
+  const [providers, setproviders] = useState(null);
+
+  useEffect(() => {
+    const setupProvider = async () => {
+      const response = await getProviders();
+      setproviders(response);
+    };
+    setupProvider();
+  }, []);
+
   return (
     <section className="w-full max-w-full flex-start flex-col">
       <h1 className="head_text text-left">
         <span className="blue_gradient">Sign In</span>
       </h1>
+      <div className=" max-w-2xl  w-full ">
+        {providers &&
+          Object.values(providers).map((provider) => (
+            <button
+              className=" mt-7 my-5 p-2 font-semibold bg-blue-500 rounded-xl text-white"
+              onClick={() => signIn(provider.id)}
+              key={provider.name}
+            >
+              Sign In With Google
+            </button>
+          ))}
+      </div>
       <form
         onSubmit={handleSubmit}
-        className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
+        className="mt-2 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
       >
-        
         <label>
           <span className=" font-satoshi font-semibold text-base text-gray-700">
             Email
